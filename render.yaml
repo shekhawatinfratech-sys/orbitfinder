@@ -1,0 +1,27 @@
+# OrbitFinder full-stack deployment blueprint for Render
+# Place this at the root of your GitHub repo before connecting to Render.
+
+services:
+  - type: web
+    name: orbitfinder-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    routes:
+      - type: rewrite
+        source: /(.*)
+        destination: /index.html
+
+  - type: web
+    name: orbitfinder-backend
+    env: node
+    buildCommand: cd backend && npm install
+    startCommand: node backend/index.js
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase: orbitfinder-db
+    autoDeploy: true
+
+databases:
+  - name: orbitfinder-db
+    plan: free
