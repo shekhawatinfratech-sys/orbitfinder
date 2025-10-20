@@ -1,9 +1,10 @@
-# OrbitFinder full-stack deployment blueprint for Render
+# OrbitFinder full-stack deployment blueprint for Render (Free-tier)
 
 services:
   - type: web
     name: orbitfinder-frontend
     env: static
+    plan: free
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
     routes:
@@ -14,6 +15,7 @@ services:
   - type: web
     name: orbitfinder-backend
     env: node
+    plan: free
     buildCommand: cd backend && npm install
     startCommand: node backend/index.js
     envVars:
@@ -25,3 +27,4 @@ services:
 
 databases:
   - name: orbitfinder-db
+    plan: free
